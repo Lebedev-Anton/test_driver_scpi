@@ -1,6 +1,7 @@
 import asyncio
 import logging
 from logging import config
+
 from logger import LOGGING
 from src.services.power_supply import PowerSupply
 

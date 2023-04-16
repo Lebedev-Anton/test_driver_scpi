@@ -1,7 +1,7 @@
 import pytest
 
-from src.services.transport import TestTransport
 from src.services.power_supply import PowerSupply
+from src.services.transport import TestTransport
 
 
 @pytest.mark.asyncio
@@ -24,7 +24,7 @@ async def test_turn_on_channel():
         12: ':OUTPut4:STATe ON\n',
     }
 
-    transport = TestTransport(dict())
+    transport = TestTransport({})
     power_supply = PowerSupply(transport)
     await power_supply.turn_on_channel(1, 1.5, 15)
     await power_supply.turn_on_channel(2, 1.5, 15)
@@ -49,7 +49,7 @@ async def test_turn_off_channel():
         1: ':OUTPut1:STATe OFF\n',
     }
 
-    transport = TestTransport(dict())
+    transport = TestTransport({})
     power_supply = PowerSupply(transport)
     await power_supply.turn_off_channel(1)
 
@@ -68,7 +68,7 @@ async def test_get_channel_state():
 
     }
     to_read = {
-        1: 10,
+        1: 6,
         2: 15,
         3: 20,
     }
@@ -77,7 +77,7 @@ async def test_get_channel_state():
     power_supply = PowerSupply(transport)
     current, voltage, power = await power_supply.get_channel_state(1)
 
-    assert (current, voltage, power) == (10, 15, 20)
+    assert (current, voltage, power) == (6, 15, 20)
 
     assert transport.writer == answer
 

@@ -1,12 +1,12 @@
 import asyncio
 
 import uvicorn as uvicorn
+from fastapi import FastAPI
+
+from settings import settings
 from src.api.v1.endpoints import router
 from src.services.power_supply import get_power_supply
 from src.services.telemetry import Telemetry
-from settings import settings
-
-from fastapi import FastAPI
 
 app = FastAPI(
     title=settings.PROJECT_NAME,

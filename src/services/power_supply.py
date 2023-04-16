@@ -1,7 +1,7 @@
 from functools import lru_cache
 from typing import NewType
-from src.services.transport import SCPI, TestTransport
 
+from src.services.transport import SCPI, TestTransport
 
 Power = NewType('Power', float)
 Current = NewType('Current', float)
@@ -58,9 +58,9 @@ class PowerSupply:
 def get_power_supply() -> PowerSupply:
     transport: SCPI = TestTransport(
         {
-            1: 10,
+            1: 6,
             2: 15,
             3: 20,
-        }
+        },
     )
     return PowerSupply(transport)

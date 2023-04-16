@@ -16,12 +16,11 @@ LOGGING = {
             'formatter': 'std_out',
             'class': 'logging.FileHandler',
             'level': 'DEBUG',
-            'filename': 'telemetry.log'
-        }
+            'filename': 'telemetry.log',
+        },
     },
     'root': {
         'handlers': ['console', 'file'],
-        'level': 'DEBUG'
+        'level': 'DEBUG',
     },
 }
-

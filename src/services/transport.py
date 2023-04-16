@@ -45,14 +45,12 @@ class TCPTransport(SCPI):
         await self._write(self.clear_command(command))
 
     async def read(self) -> str:
-        data = await self._read()
-        return data
+        return await self._read()
 
     async def query(self, command: str, timeout: int = 1) -> str:
         await self.write(command)
         await asyncio.sleep(timeout)
-        data = await self.read()
-        return data
+        return await self.read()
 
     def clear_command(self, command: str) -> str:
         return command + self.delimiter
@@ -62,7 +60,7 @@ class TestTransport(SCPI):
     delimiter: str = '\n'
 
     def __init__(self, reader: dict) -> None:
-        self._writer = dict()
+        self._writer = {}
         self._reader = reader
         self._read_count = 1
 
@@ -79,8 +77,7 @@ class TestTransport(SCPI):
     async def query(self, command: str, timeout: int = 0.01) -> str:
         await self.write(command)
         await asyncio.sleep(timeout)
-        data = await self.read()
-        return data
+        return await self.read()
 
     def clear_command(self, command: str) -> str:
         return command + self.delimiter

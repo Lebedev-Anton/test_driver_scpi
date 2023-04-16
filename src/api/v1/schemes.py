@@ -1,4 +1,6 @@
-from pydantic import BaseModel
+from typing import Literal
+
+from pydantic import BaseModel, confloat, conint
 
 
 class Error(BaseModel):
@@ -6,19 +8,19 @@ class Error(BaseModel):
 
 
 class PowerChannel(BaseModel):
-    channel: int
-    state: str
+    channel: conint(ge=1, le=4)
+    state: Literal['on', 'off']
 
 
 class ChannelSettings(BaseModel):
-    channel: int
-    current: float
-    voltage: float
+    channel: conint(ge=1, le=4)
+    current: confloat(ge=0, le=6.2)
+    voltage: confloat(ge=0, le=35)
 
 
 class ChannelParams(BaseModel):
-    current: float
-    voltage: float
+    current: confloat(ge=0, le=6.2)
+    voltage: confloat(ge=0, le=35)
     power: float
 
 

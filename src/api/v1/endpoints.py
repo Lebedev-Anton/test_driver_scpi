@@ -1,9 +1,11 @@
 from http import HTTPStatus
 
-from fastapi import APIRouter, Depends, Body
+from fastapi import APIRouter, Body, Depends
 from fastapi.responses import JSONResponse
-from src.services.power_supply import get_power_supply, PowerSupply
-from src.api.v1.schemes import ChannelSettings, ChannelSates, ChannelParams, Error, PowerChannel
+
+from src.api.v1.schemes import (ChannelParams, ChannelSates, ChannelSettings,
+                                Error, PowerChannel)
+from src.services.power_supply import PowerSupply, get_power_supply
 
 router: APIRouter = APIRouter()
 
@@ -12,19 +14,19 @@ router: APIRouter = APIRouter()
 async def power_on(channel_setting: ChannelSettings, power_supply: PowerSupply = Depends(get_power_supply)):
     try:
         await power_supply.turn_on_channel(
-            channel_setting.channel, channel_setting.current, channel_setting.voltage
+            channel_setting.channel, channel_setting.current, channel_setting.voltage,
         )
     except AssertionError:
-        return JSONResponse(Error(message=f'Bad request').dict(), status_code=HTTPStatus.BAD_REQUEST)
+        return JSONResponse(Error(message='Bad request').dict(), status_code=HTTPStatus.BAD_REQUEST)
     return JSONResponse(PowerChannel(channel=channel_setting.channel, state='on').dict(), status_code=HTTPStatus.OK)
 
 
 @router.post('/power/off')
-async def power_on(channel: int = Body(embed=True), power_supply: PowerSupply = Depends(get_power_supply)):
+async def power_off(channel: int = Body(embed=True), power_supply: PowerSupply = Depends(get_power_supply)):
     try:
         await power_supply.turn_off_channel(channel)
     except AssertionError:
-        return JSONResponse(Error(message=f'Bad request').dict(), status_code=HTTPStatus.BAD_REQUEST)
+        return JSONResponse(Error(message='Bad request').dict(), status_code=HTTPStatus.BAD_REQUEST)
     return JSONResponse(PowerChannel(channel=channel, state='off').dict(), status_code=HTTPStatus.OK)
 
 
