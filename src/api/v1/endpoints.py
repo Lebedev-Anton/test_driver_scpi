@@ -10,7 +10,10 @@ from src.services.power_supply import PowerSupply, get_power_supply
 router: APIRouter = APIRouter()
 
 
-@router.post('/power/on')
+@router.post(
+    '/power/on',
+    description='Запрос на включение канала',
+)
 async def power_on(channel_setting: ChannelSettings, power_supply: PowerSupply = Depends(get_power_supply)):
     try:
         await power_supply.turn_on_channel(
@@ -21,7 +24,10 @@ async def power_on(channel_setting: ChannelSettings, power_supply: PowerSupply =
     return JSONResponse(PowerChannel(channel=channel_setting.channel, state='on').dict(), status_code=HTTPStatus.OK)
 
 
-@router.post('/power/off')
+@router.post(
+    '/power/off',
+    description='Запрос на выключение канала',
+)
 async def power_off(channel: int = Body(embed=True), power_supply: PowerSupply = Depends(get_power_supply)):
     try:
         await power_supply.turn_off_channel(channel)
@@ -30,7 +36,10 @@ async def power_off(channel: int = Body(embed=True), power_supply: PowerSupply =
     return JSONResponse(PowerChannel(channel=channel, state='off').dict(), status_code=HTTPStatus.OK)
 
 
-@router.get('/state')
+@router.get(
+    '/state',
+    description='Запрос состояния каналов',
+)
 async def get_channel_state(power_supply: PowerSupply = Depends(get_power_supply)):
     channel_1 = await power_supply.get_channel_state(1)
     channel_2 = await power_supply.get_channel_state(2)

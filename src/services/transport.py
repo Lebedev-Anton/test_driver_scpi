@@ -7,7 +7,7 @@ class SCPI(abc.ABC):
     delimiter: str
 
     @abc.abstractmethod
-    async def write(self, command: str) -> str:
+    async def write(self, command: str) -> None:
         ...
 
     @abc.abstractmethod

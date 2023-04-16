@@ -1,3 +1,4 @@
+import datetime
 from typing import Literal
 
 from pydantic import BaseModel, confloat, conint
@@ -19,6 +20,7 @@ class ChannelSettings(BaseModel):
 
 
 class ChannelParams(BaseModel):
+    meas_time: str = datetime.datetime.utcnow()
     current: confloat(ge=0, le=6.2)
     voltage: confloat(ge=0, le=35)
     power: float
